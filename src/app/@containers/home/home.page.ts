@@ -33,11 +33,20 @@ export class HomePage implements OnInit {
     this.identifyForm = this.formBuilder.group({
       manufdate: [
         '2004-02-23',
-        [Validators.required, Validators.pattern(this.isoDatePattern)],
+        {
+          validators: [
+            Validators.required,
+            Validators.pattern(this.isoDatePattern),
+          ],
+          updateOn: 'blur',
+        },
       ],
       hwsn: [
         '4023354 40905',
-        [Validators.required, Validators.pattern(this.snPattern)],
+        {
+          validators: [Validators.required, Validators.pattern(this.snPattern)],
+          updateOn: 'blur',
+        },
       ],
       videochip: ['unknown'],
       biosv: ['unknown'],
