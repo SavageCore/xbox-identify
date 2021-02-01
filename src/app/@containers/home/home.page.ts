@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Path } from '@core/structs';
 
 @Component({
@@ -24,15 +24,23 @@ export class HomePage implements OnInit {
   productionGuess: string[];
   possibleRevisions: string[];
   mismatch: string[];
+  snPattern = /^(\d{12}|\d{7} \d{5})$/;
+  isoDatePattern = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.identifyForm = this.formBuilder.group({
-      manufdate: '2004-02-23',
-      hwsn: '4023354 40905',
-      videochip: 'unknown',
-      biosv: 'unknown',
+      manufdate: [
+        '2004-02-23',
+        [Validators.required, Validators.pattern(this.isoDatePattern)],
+      ],
+      hwsn: [
+        '4023354 40905',
+        [Validators.required, Validators.pattern(this.snPattern)],
+      ],
+      videochip: ['unknown'],
+      biosv: ['unknown'],
     });
 
     this.onChanges();

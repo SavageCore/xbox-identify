@@ -5,11 +5,22 @@
       <form [formGroup]="identifyForm">
         <label class="block">
           Manufacturing Date
-          <input formControlName="manufdate" class="block w-full mt-1 form-input" value="2002-04-26">
+          <input formControlName="manufdate" class="block w-full mt-1 form-input" placeholder="YYYY-MM-DD"
+            [ngClass]="{ 'border-danger-600': identifyForm.get('manufdate').dirty && identifyForm.get('manufdate').errors, 'border-success-600': identifyForm.get('manufdate').dirty && !identifyForm.get('manufdate').errors }">
+          <div *ngIf="identifyForm.get('manufdate').dirty && identifyForm.get('manufdate').errors"
+            class="text-danger-600">
+            <div *ngIf="identifyForm.get('manufdate').errors.required">Manufacturing date is required</div>
+            <div *ngIf="identifyForm.get('manufdate').errors.pattern">Date must be in format YYYY-MM-DD</div>
+          </div>
         </label>
         <label class="block">
           Hardware Serial Number
-          <input formControlName="hwsn" class="block w-full mt-1 form-input" value="2120565 21703">
+          <input formControlName="hwsn" class="block w-full mt-1 form-input" placeholder="xxxxxx xxxx"
+            [ngClass]="{ 'border-danger-600': identifyForm.get('hwsn').dirty && identifyForm.get('hwsn').errors, 'border-success-600': identifyForm.get('hwsn').dirty && !identifyForm.get('hwsn').errors }">
+          <div *ngIf="identifyForm.get('hwsn').dirty && identifyForm.get('hwsn').errors" class="text-danger-600">
+            <div *ngIf="identifyForm.get('hwsn').errors.required">Serial number is required</div>
+            <div *ngIf="identifyForm.get('hwsn').errors.pattern">Serial number must be 12 digits</div>
+          </div>
         </label>
 
         <div class="mt-4">
