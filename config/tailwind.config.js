@@ -23,6 +23,7 @@ module.exports = {
 
       white: '#fff',
       black: '#000',
+      xbox: '#0e7a0d',
 
       background: 'var(--bg)',
       accent: 'var(--accent)',
@@ -83,9 +84,11 @@ module.exports = {
         700: '#8f2541',
         800: '#60182c',
         900: '#300c16',
-      },
+      }
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/custom-forms')
+  ],
 };

@@ -11,8 +11,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="13a61074e8c62851e6f25bb04129c81ebcc1e27e" datatype="html">
-        <source> Built in planet 🌎 by YOUR_NAME</source>
-        <target> Construído en el planeta 🌎 por TU_NOMBRE</target>
+        <source> Built in planet 🌎 by SavageCore</source>
+        <target> Construído en el planeta 🌎 por SavageCore</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/@components/footer/footer.component.html</context>
           <context context-type="linenumber">2,3</context>
