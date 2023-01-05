@@ -74,6 +74,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   onChanges(): void {
     let skip = true;
+    this.mismatch = [];
     this.identifyForm.valueChanges.subscribe(
       (val: { manufdate: string; hwsn: string; videochip: string; biosv: string }) => {
         this.manufdate = val.manufdate;
@@ -106,32 +107,59 @@ export class HomePage implements OnInit, OnDestroy {
     const checkDate = Date.parse(this.manufdate);
 
     const oneZeroFrom = Date.parse('2001-01-01');
-    const oneZeroTo = Date.parse('2002-10-31');
+    const oneZeroTo = Date.parse('2002-07-31');
 
-    const oneOneFrom = Date.parse('2002-11-01');
-    const oneOneTo = Date.parse('2003-04-30');
+    const oneOneFrom = Date.parse('2002-08-01');
+    const oneOneTo = Date.parse('2003-01-31');
 
-    const oneTwoFiveFrom = Date.parse('2003-05-01');
-    const oneTwoFiveTo = Date.parse('2004-03-31');
+    const oneTwoFrom = Date.parse('2003-01-01');
+    const oneTwoTo = Date.parse('2003-03-31');
+
+    const oneThreeFrom = Date.parse('2003-04-01');
+    const oneThreeTo = Date.parse('2003-07-31');
+
+    const oneFourFiveFrom = Date.parse('2003-09-01');
+    const oneFourFiveTo = Date.parse('2004-03-31');
 
     const oneSixFrom = Date.parse('2004-04-01');
+    const oneSixTo = Date.parse('2004-09-30');
+
+    const oneSixBFrom = Date.parse('2004-09-01');
+    const oneSixBTo = Date.parse('2005-08-31');
 
     if (checkDate >= oneZeroFrom && checkDate <= oneZeroTo) {
       this.manufacturingGuess = ['1.0'];
     }
+
     if (checkDate >= oneOneFrom && checkDate <= oneOneTo) {
       this.manufacturingGuess = ['1.1'];
     }
-    if (checkDate >= oneTwoFiveFrom && checkDate <= oneTwoFiveTo) {
-      this.manufacturingGuess = ['1.2', '1.3', '1.4', '1.5'];
+
+    if (checkDate >= oneTwoFrom && checkDate <= oneTwoTo) {
+      this.manufacturingGuess = ['1.2'];
     }
-    if (checkDate >= oneSixFrom) {
+
+    if (checkDate >= oneThreeFrom && checkDate <= oneThreeTo) {
+      this.manufacturingGuess = ['1.3'];
+    }
+
+    if (checkDate >= oneFourFiveFrom && checkDate <= oneFourFiveTo) {
+      this.manufacturingGuess = ['1.4', '1.5'];
+    }
+
+    if (checkDate >= oneSixFrom && checkDate <= oneSixTo) {
       this.manufacturingGuess = ['1.6'];
+    }
+
+    if (checkDate >= oneSixBFrom && checkDate <= oneSixBTo) {
+      this.manufacturingGuess = ['1.6b'];
     }
   }
 
   hardwareSerialNumberCheck(): void {
+    // https://xboxdevwiki.net/Hardware_Revisions
     // https://www.ogxbox.com/forums/index.php?/topic/59-identifying-your-xbox-revision/
+    // https://arcadesupplycompany.com/blogs/guides-how-tos/identifying-revision-number-of-original-xbox
     //
     // LNNNNNN YWWFF
     // L is the number of the production line within the factory.
@@ -206,6 +234,16 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   productionCheck(yw: string): void {
+    const productionYws = ['20', '21', '23', '24', '25', '30', '31', '32', '33', '42'];
+    // If yw not in productionYws, find the closest one rounding down
+    if (!productionYws.includes(yw)) {
+      const closestYw = productionYws.reduce((prev, curr) => {
+        return Math.abs(Number(curr) - Number(yw)) < Math.abs(Number(prev) - Number(yw)) ? curr : prev;
+      });
+      yw = closestYw;
+      console.log('Closest yw: ' + yw);
+    }
+
     if (yw === '20' || yw === '21') {
       this.productionGuess = ['1.0'];
     } else if (yw === '23') {
@@ -220,6 +258,8 @@ export class HomePage implements OnInit, OnDestroy {
       this.productionGuess = ['1.4', '1.5'];
     } else if (yw === '42') {
       this.productionGuess = ['1.6'];
+    } else if (yw === '43') {
+      this.productionGuess = ['1.6b'];
     } else {
       this.productionGuess = ['?'];
     }
@@ -229,13 +269,16 @@ export class HomePage implements OnInit, OnDestroy {
     this.hasError = false;
     this.mismatch = [];
 
+    // Filter possible revisions by manufacturing date and factory
     if (!this.manufacturingGuess.some((r) => this.factoryGuess.includes(r))) {
       this.mismatch.push('factory');
 
       this.hasError = true;
     }
-    // Filter possible revisions by manufacturing date and factory
+    console.log('manufacturingGuess', this.manufacturingGuess);
+    console.log('factoryGuess', this.factoryGuess);
     let possiblities = this.manufacturingGuess.filter((e) => this.factoryGuess.includes(e));
+    console.log('possiblities', possiblities);
 
     // Further filter by production date
     if (!possiblities.some((r) => this.productionGuess.includes(r))) {
@@ -243,7 +286,9 @@ export class HomePage implements OnInit, OnDestroy {
 
       this.hasError = true;
     }
+    console.log('productionGuess', this.productionGuess);
     possiblities = possiblities.filter((e) => this.productionGuess.includes(e));
+    console.log('possiblities', possiblities);
 
     // Further filter by video chip if known
     if (this.videochip !== 'unknown') {
@@ -252,7 +297,9 @@ export class HomePage implements OnInit, OnDestroy {
 
         this.hasError = true;
       }
+      console.log('videoChipGuess', this.videoChipGuess);
       possiblities = possiblities.filter((e) => this.videoChipGuess.includes(e));
+      console.log('possiblities', possiblities);
     }
 
     // Further filter by bios revision if known
@@ -263,10 +310,27 @@ export class HomePage implements OnInit, OnDestroy {
         this.hasError = true;
       }
 
+      console.log('biosVersionGuess', this.biosVersionGuess);
       possiblities = possiblities.filter((e) => this.biosVersionGuess.includes(e));
+      console.log('possiblities', possiblities);
     }
 
+    console.log('mismatch', this.mismatch);
+
     this.mismatchString = this.mismatch.join(', ').replace(/,([^,]*)$/, ' and $1');
+
+    // Get the most common string from the 5 guess arrays
+    const guessArray = this.manufacturingGuess.concat(
+      this.factoryGuess,
+      this.productionGuess,
+      this.videoChipGuess,
+      this.biosVersionGuess,
+    );
+    const guessArraySorted = guessArray.sort(
+      (a, b) => guessArray.filter((v) => v === a).length - guessArray.filter((v) => v === b).length,
+    );
+    const mostCommonGuess = guessArraySorted[guessArraySorted.length - 1];
+    console.log('mostCommonGuess', mostCommonGuess);
 
     this.possibleRevisions = possiblities;
     this.hasResult = true;
