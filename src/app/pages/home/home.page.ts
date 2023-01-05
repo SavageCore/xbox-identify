@@ -75,20 +75,14 @@ export class HomePage implements OnInit, OnDestroy {
     let skip = true;
     this.identifyForm.valueChanges.subscribe(
       (val: { manufdate: string; hwsn: string; videochip: string; biosv: string }) => {
-        console.log(val);
-
         this.manufdate = val.manufdate;
         if (!this.identifyForm.get('manufdate')!.valid) {
-          console.log('Date invalid');
           return;
         } else {
           this.manufactureDateCheck();
-          console.log('P');
         }
 
         this.hwsn = val.hwsn.replace(' ', '');
-        console.log('hwsn', this.hwsn);
-        console.log(this.identifyForm.get('hwsn')!.valid);
         if (this.identifyForm.get('hwsn')!.valid) {
           skip = false;
           this.hardwareSerialNumberCheck();
@@ -99,7 +93,6 @@ export class HomePage implements OnInit, OnDestroy {
 
         this.biosv = val.biosv;
         this.biosVersionCheck();
-        console.log('skip', skip);
 
         if (skip === false) {
           this.checkMatches();
@@ -109,8 +102,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   manufactureDateCheck(): void {
-    console.log('Date check');
-
     const checkDate = Date.parse(this.manufdate);
 
     const oneZeroFrom = Date.parse('2001-01-01');
@@ -139,8 +130,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   hardwareSerialNumberCheck(): void {
-    // TODO
-    //
     // https://www.ogxbox.com/forums/index.php?/topic/59-identifying-your-xbox-revision/
     //
     // LNNNNNN YWWFF
@@ -157,12 +146,6 @@ export class HomePage implements OnInit, OnDestroy {
     const y = this.hwsn.slice(7, 8);
     const ww = this.hwsn.slice(8, 10);
     const ff = this.hwsn.slice(10, 12);
-
-    console.log('L', l);
-    console.log('NNNNNN', nnnnnn);
-    console.log('Y', y);
-    console.log('WW', ww);
-    console.log('FF', ff);
 
     this.factoryCheck(ff);
     const yw = y + ww.slice(0, 1);
@@ -222,7 +205,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   productionCheck(yw: string): void {
-    console.log('productionCheck', yw);
     if (yw === '20' || yw === '21') {
       this.productionGuess = ['1.0'];
     } else if (yw === '23') {
