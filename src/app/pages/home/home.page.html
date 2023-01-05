@@ -64,29 +64,29 @@
     </label>
   </form>
   <ng-container *ngIf="hasResult">
-    <h1 class="mb-4">Results</h1>
-    <span class="mb-4 text-danger-600">
+    <div class="mt-2">
+      <h1 class="mb-4">Results</h1>
       <p *ngIf="manufacturingGuess">Manufacturing date suggests: {{manufacturingGuess.join(', ')}}</p>
       <p *ngIf="productionGuess">Production date suggests: {{productionGuess.join(', ')}}</p>
       <p *ngIf="videoChipGuess">Video chip suggests: {{videoChipGuess.join(', ')}}</p>
       <p *ngIf="biosVersionGuess">BIOS version suggests: {{biosVersionGuess.join(', ')}}</p>
       <p *ngIf="factoryGuess">SN suggests factory: {{factoryGuess.join(', ')}} ({{factoryName}})</p>
-    </span>
-    <ng-container *ngIf="!hasError">
-      <span class="text-warning-600" *ngIf="possibleRevisions.length > 1">
-        <p>It looks like your <span class="text-xbox">Xbox</span> is one of the following revisions:
-          {{possibleRevisions.join(', ')}}</p>
-      </span>
-      <span class="text-success-600" *ngIf="possibleRevisions.length == 1">
-        <p>It looks like your <span class="text-xbox">Xbox</span> is a v{{possibleRevisions}}</p>
-      </span>
-      <span class="text-success-600" *ngIf="!possibleRevisions.includes('1.6')">Good news your <span
-          class="text-xbox">Xbox</span> is not v1.6, TSOP away!</span>
-    </ng-container>
-    <ng-container *ngIf="hasError">
-      <span class="text-danger-600">
-        <p>There is a mismatch with {{mismatch.join(', ')}} - unable to determine revision :(</p>
-      </span>
-    </ng-container>
+      <br>
+      <ng-container *ngIf="!hasError">
+        <span class="text-warning-600" *ngIf="possibleRevisions.length > 1">
+          <p>It looks like your <span class="text-xbox">Xbox</span> is one of the following revisions:
+            {{possibleRevisions.join(', ')}}</p>
+        </span>
+        <span class="text-success-600" *ngIf="possibleRevisions.length == 1">
+          <p>It looks like your <span class="text-xbox">Xbox</span> is a v{{possibleRevisions}}</p>
+        </span>
+        <span class="text-success-600" *ngIf="!possibleRevisions.includes('1.6')">✔️ Good news your <span
+            class="text-xbox">Xbox</span> is not v1.6, TSOP away! 🐱‍💻</span>
+      </ng-container>
+      <ng-container *ngIf="hasError">
+        <p>❌ There is a <span class="text-danger-600">mismatch</span> between "{{mismatchString}}": Unable to
+          determine revision 😟</p>
+      </ng-container>
+    </div>
   </ng-container>
 </section>

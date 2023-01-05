@@ -19,6 +19,7 @@ export class HomePage implements OnInit, OnDestroy {
   hwsn = '';
   videochip = '';
   biosv = '';
+  mismatchString = '';
   hasResult = false;
   hasError = false;
   manufacturingGuess: string[];
@@ -241,7 +242,6 @@ export class HomePage implements OnInit, OnDestroy {
       this.mismatch.push('production date');
 
       this.hasError = true;
-      return;
     }
     possiblities = possiblities.filter((e) => this.productionGuess.includes(e));
 
@@ -251,7 +251,6 @@ export class HomePage implements OnInit, OnDestroy {
         this.mismatch.push('video chip');
 
         this.hasError = true;
-        return;
       }
       possiblities = possiblities.filter((e) => this.videoChipGuess.includes(e));
     }
@@ -262,11 +261,12 @@ export class HomePage implements OnInit, OnDestroy {
         this.mismatch.push('bios version');
 
         this.hasError = true;
-        return;
       }
 
       possiblities = possiblities.filter((e) => this.biosVersionGuess.includes(e));
     }
+
+    this.mismatchString = this.mismatch.join(', ').replace(/,([^,]*)$/, ' and $1');
 
     this.possibleRevisions = possiblities;
     this.hasResult = true;
