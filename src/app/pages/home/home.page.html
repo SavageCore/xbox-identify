@@ -1,5 +1,5 @@
 <section>
-  <h1 i18n class="mb-4">Identify your <span class="text-xbox">Xbox</span> revision</h1>
+  <h1 class="mb-4">Identify your <span class="text-xbox">Xbox</span> revision</h1>
   <form [formGroup]="identifyForm">
     <label class="block">
       Manufacturing Date
@@ -64,7 +64,7 @@
     </label>
   </form>
   <ng-container *ngIf="hasResult">
-    <h1 i18n class="mb-4">Results</h1>
+    <h1 class="mb-4">Results</h1>
     <span class="mb-4 text-danger-600">
       <p *ngIf="manufacturingGuess">Manufacturing date suggests: {{manufacturingGuess.join(', ')}}</p>
       <p *ngIf="productionGuess">Production date suggests: {{productionGuess.join(', ')}}</p>
