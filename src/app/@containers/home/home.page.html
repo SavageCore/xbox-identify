@@ -68,10 +68,11 @@
       <ng-container *ngIf="hasResult">
         <h1 i18n class="mb-4">Results</h1>
         <span class="mb-4 text-danger-600">
-          <p *ngIf="manufacturingGuess">Manufacturing date suggests: {{manufacturingGuess}}</p>
-          <p *ngIf="videoChipGuess">Video chip suggests: {{videoChipGuess}}</p>
-          <p *ngIf="biosVersionGuess">BIOS version suggests: {{biosVersionGuess}}</p>
-          <p *ngIf="factoryGuess">SN suggests factory: {{factoryGuess}} ({{factoryName}})</p>
+          <p *ngIf="manufacturingGuess">Manufacturing date suggests: {{manufacturingGuess.join(', ')}}</p>
+          <p *ngIf="productionGuess">Production date suggests: {{productionGuess.join(', ')}}</p>
+          <p *ngIf="videoChipGuess">Video chip suggests: {{videoChipGuess.join(', ')}}</p>
+          <p *ngIf="biosVersionGuess">BIOS version suggests: {{biosVersionGuess.join(', ')}}</p>
+          <p *ngIf="factoryGuess">SN suggests factory: {{factoryGuess.join(', ')}} ({{factoryName}})</p>
         </span>
         <ng-container *ngIf="!hasError">
           <span class="text-warning-600" *ngIf="possibleRevisions.length > 1">
@@ -86,7 +87,7 @@
         </ng-container>
         <ng-container *ngIf="hasError">
           <span class="text-danger-600">
-            <p>There is a mismatch between {{mismatch.join(', ')}} - unable to determine revision :(</p>
+            <p>There is a mismatch with {{mismatch.join(', ')}} - unable to determine revision :(</p>
           </span>
         </ng-container>
       </ng-container>

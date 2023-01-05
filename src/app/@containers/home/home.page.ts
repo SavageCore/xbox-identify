@@ -27,12 +27,12 @@ export class HomePage implements OnInit {
   snPattern = /^(\d{12}|\d{7} \d{5})$/;
   isoDatePattern = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.identifyForm = this.formBuilder.group({
       manufdate: [
-        '2004-02-23',
+        '2003-08-18',
         {
           validators: [
             Validators.required,
@@ -42,7 +42,7 @@ export class HomePage implements OnInit {
         },
       ],
       hwsn: [
-        '4023354 40905',
+        '5029005 33405',
         {
           validators: [Validators.required, Validators.pattern(this.snPattern)],
           updateOn: 'blur',
@@ -67,14 +67,14 @@ export class HomePage implements OnInit {
         console.log(val);
 
         this.manufdate = val.manufdate;
-        if (this.manufdate.length !== 10) {
+        if (!this.identifyForm.get('manufdate').valid) {
           return;
         } else {
           this.manufactureDateCheck();
         }
 
         this.hwsn = val.hwsn.replace(' ', '');
-        if (this.hwsn.length === 12) {
+        if (this.identifyForm.get('hwsn').valid) {
           skip = false;
           this.hardwareSerialNumberCheck();
         }
@@ -235,37 +235,56 @@ export class HomePage implements OnInit {
   checkMatches(): void {
     this.hasError = false;
     this.mismatch = [];
-    // // Determine if manufacturing date and video chip contain the same versions
-    // console.log(
-    //   'Manufacturing date + Video chip',
-    //   this.manufacturingGuess.some((r) => this.videoChipGuess.includes(r))
-    // );
-    // if (!this.manufacturingGuess.some((r) => this.videoChipGuess.includes(r))) {
-    //   this.mismatch.push('manufacturing date and video chip');
-    //   console.log(this.mismatch);
 
-    //   this.hasError = true;
-    // }
     if (!this.manufacturingGuess.some((r) => this.factoryGuess.includes(r))) {
-      this.mismatch.push('manufacturing date and factory');
-      console.log(this.mismatch);
+      this.mismatch.push('factory');
 
       this.hasError = true;
     }
-    // Create new array of revisions that exist in both manufacturing date and factory
-    const intersection = this.manufacturingGuess.filter((e) =>
+    // Filter possible revisions by manufacturing date and factory
+    let possiblities = this.manufacturingGuess.filter((e) =>
       this.factoryGuess.includes(e)
     );
 
-    this.possibleRevisions = intersection;
-    this.hasResult = true;
+    // Further filter by production date
+    if (!possiblities.some((r) => this.productionGuess.includes(r))) {
+      this.mismatch.push('production date');
 
-    // if () {
-    //   console.log('MATCH: Manufacturing date and video chip');
-    // } else if (this.videoChipGuess.includes('?')) {
-    //   console.log('PARTIAL: Unknown video chip');
-    // } else {
-    //   console.log('FAIL: Manufacturing date and video chip');
-    // }
+      this.hasError = true;
+      return;
+    }
+    possiblities = possiblities.filter((e) =>
+      this.productionGuess.includes(e)
+    );
+
+    // Further filter by video chip if known
+    if (this.videochip !== 'unknown') {
+      if (!possiblities.some((r) => this.videoChipGuess.includes(r))) {
+        this.mismatch.push('video chip');
+
+        this.hasError = true;
+        return;
+      }
+      possiblities = possiblities.filter((e) =>
+        this.videoChipGuess.includes(e)
+      );
+    }
+
+    // Further filter by bios revision if known
+    if (this.biosv !== 'unknown') {
+      if (!possiblities.some((r) => this.biosVersionGuess.includes(r))) {
+        this.mismatch.push('bios version');
+
+        this.hasError = true;
+        return;
+      }
+
+      possiblities = possiblities.filter((e) =>
+        this.biosVersionGuess.includes(e)
+      );
+    }
+
+    this.possibleRevisions = possiblities;
+    this.hasResult = true;
   }
 }
