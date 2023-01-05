@@ -1,168 +1,120 @@
-# Angular Boilerplate
+<h1 align="center">Angular Boilerplate</h1>
 
-Angular starter for enterprise-grade front-end projects, built under a clean architecture that helps to scale and maintain a fast workflow.
+<p align="center">
+  <img src="https://img.icons8.com/ios-filled/150/000000/angularjs.png" alt="angular-logo" width="120px" height="120px"/>
+  <br>
+  <i>Lightweight & minimalistic Angular starter</i>
+  <br>
+</p>
+
+<p align="center">
+  <a href="https://angularboilerplate.vercel.app"><strong>https://angularboilerplate.vercel.app</strong></a>
+  <br>
+</p>
+
+<p align="center">
+  <a href="CONTRIBUTING.md">Contributing Guidelines</a>
+  ·
+  <a href="https://github.com/juanmesa2097/angular-boilerplate/issues">Submit an Issue</a>
+  <br>
+  <br>
+</p>
+<hr>
 
 ## ⚗️ Features
 
-- Lazy loading.
-- Smart and pure components pattern.
-- Components types (e.g. component, page).
-- Self-contained components and encapsulated modules.
-- Auth scheme
-- Settings scheme
-- User scheme
-- PWA
-- i18n
-- Dynamic titles and content meta tags.
-- TailwindCSS + Autoprefixer + PurgeCSS setup.
-- Dark mode and theme configuration.
-- Scalable CSS architecture with [ITCSS](https://itcss.io/).
-- [Lighthouse](https://developers.google.com/web/tools/lighthouse) reports improved.
-- Migration from TSLint to ESLint.
-- Husky hooks
+- Lazy loading
+- Standalone components
+- OS/Light/Dark modes
+- Strongly-typed storage
+- TailwindCSS
 
-## 📄 Pages
+## 🛠️ Tweaks
 
-- General
-  - home
-  - not-found
-- Auth
-  - sign-in
-  - sign-up
-  - forgot-password
-  - forgot-password-email-sent
-  - password-reset
-  - password-reset-succeeded
-  - password-reset-failed
-- Settings
-  - account
-  - appearance
-  - billing
-  - blocked-Users
-  - Notifications
-  - security
-  - security-log
-- User
-  - my-profile
-  - overview
-- Features
-  - dashboard
+- TailwindCSS configuration:
 
-## 🧱 Self-contained components
+  You can find the `tailwind.config.js` file in the project root, then you can refer to https://tailwindcss.com/docs/configuration to learn how to make your own adjustments.
 
-- breadcrumb
-- footer
-- header
+- Set default theme (first time load)
 
-## 📛 Custom directives
+  Go to `src\app\lib\constants.ts` and choose the default theme.
 
-- click-outside (detects when the user clicks outside an element).
+  OS preference
 
-## 🧪 Custom pipes
+  ```ts
+  export const DEFAULT_BASE_THEME: AppTheme = 'system' as const;
+  ```
 
-- bytes (transforms a numeric value into bytes, KB, MB, GB, etc.).
+  Light mode
 
-## 🛠️ Customizing to your preference
+  ```ts
+  export const DEFAULT_BASE_THEME: AppTheme = 'light' as const;
+  ```
 
-- Change application title:
+  Dark mode
 
-  Go to `src/index.html` and inside the `title` tag, replace "Angular Boilerplate" with your app name.
+  ```ts
+  export const DEFAULT_BASE_THEME: AppTheme = 'dark' as const;
+  ```
 
-- Change paths of the pages:
+- Enable a new local/session storage item
 
-  Go to `src/app/core/structs/path.enum.ts` to find all the registered routes in an enum file.
+  Go to `src\app\lib\utils\storage\storage.types.ts` and add a new item name in the `StorageObjectType` type and a new key value pair in the `StorageObjectMap` type.
 
-  For example, you could replace `sign-in` with `SignIn`, `login` or `iniciar_sesion`
+  ![image](https://user-images.githubusercontent.com/64181348/173276010-a4b95a63-2fe0-4104-9b09-34eeea5f0025.png)
 
-- Change titles, descriptions, and robots of the pages:
-
-  Every page has a `.route` file that contains an exported constant that holds the title, description and a robot's metatag that indicates if it can be indexed or followed by a web crawler.
-
-- Change light and dark mode colors:
-
-  Go to `src/css/01-settings/variables.scss` and tweak it to your preference.
-
-- Change your TailwindCSS configuration:
-
-  Go to `config/tailwind.config.js` and tweak it to your preference. You can refer to https://tailwindcss.com/docs/configuration to learn how to do it.
-
-- Add new PostCSS plugins
-
-  Go to `config/webpack-dev.config.js` for development and testing or to `config/webpack-prod.config.js` for production settings and add the new plugins inside the plugins array.
+  After that, you can use the new item.
+  ![image](https://user-images.githubusercontent.com/64181348/173276575-09322722-387d-4c20-95af-fa9915079e3a.png)
 
 ## ⛩️ Project structure
 
 ```console
 ├───app
-│   ├───@components
-│   │   ├───breadcrumb
-│   │   ├───footer
-│   │   └───header
-│   ├───@containers
-│   │   ├───home
-│   │   └───not-found
-│   ├───@core
-│   │   ├───directives
-│   │   │   └───click-outside
+│   ├───lib
+│   │   ├───components
+│   │   │   ├───footer
+│   │   │   ├───layouts
+│   │   │   │   └───layout-horizontal
+│   │   │   ├───logo
+│   │   │   └───navbar
 │   │   ├───guards
 │   │   ├───interceptors
-│   │   ├───pipes
-│   │   │   └───bytes
+│   │   ├───interfaces
+│   │   ├───enums
 │   │   ├───services
-│   │   │   └───seo
-│   │   ├───structs
+│   │   │   ├───auth
+│   │   │   └───theme
 │   │   └───utils
-│   ├───+auth
-│   │   └───pages
-│   │       ├───forgot-password
-│   │       ├───forgot-password-email-sent
-│   │       ├───password-reset
-│   │       ├───password-reset-failed
-│   │       ├───password-reset-succeeded
-│   │       ├───sign-in
-│   │       └───sign-up
-│   ├───+settings
-│   │   └───pages
-│   │       ├───account
-│   │       ├───appearance
-│   │       ├───billing
-│   │       ├───blocked-users
-│   │       ├───notifications
-│   │       ├───security
-│   │       └───security-log
-│   ├───+user
-│   │   └───pages
-│   │       ├───my-profile
-│   │       └───overview
-│   └───features
-|       └───dashboard
+│   │       └───storage
+│   └───pages
+│       ├───auth
+│       │   ├───login
+│       │   └───register
+│       ├───home
+│       ├───profile
+│       ├───screens
+│       │   └───not-found
+│       └───settings
+│           ├───accessibility
+│           ├───account
+│           └───appearance
 ├───assets
-├───css
-│   ├───01-settings
-│   ├───02-tools
-│   ├───03-generic
-│   ├───04-elements
-│   ├───05-objects
-│   ├───06-components
-│   └───07-trumps
 ├───environments
-├───locale
-└───public
-    └───icons
+└───theme
+    ├───01-base
+    ├───02-components
+    ├───03-utilities
+    └───tailwindcss
 ```
 
 ## 🧙‍♂️ Commands
 
-| Command      | Description                                      | NPM                | Yarn            | Background command                                              |
-| ------------ | ------------------------------------------------ | ------------------ | --------------- | --------------------------------------------------------------- |
-| ng           | See available commands                           | npm run ng         | yarn ng         | ng                                                              |
-| start        | Run your app in development mode                 | npm start          | yarn start      | ng serve                                                        |
-| start:es     | Run your app in development mode in spanish      | npm run start:es   | yarn start:es   | ng serve -c=es --port 4201                                      |
-| build        | Build your app                                   | npm run build      | yarn build      | ng build                                                        |
-| build:prod   | Build your app ready for production              | npm run build:prod | yarn build:prod | ng build --prod --build-optimizer --aot --stats-json            |
-| build:i18n   | Build your multilingual app ready for production | npm run build:i18n | yarn build:i18n | ng build --prod --build-optimizer --aot --stats-json --localize |
-| test         | Run your unit tests                              | npm run test       | yarn test       | ng test                                                         |
-| lint         | Use ESLint to lint your app                      | npm run lint       | yarn lint       | ng lint                                                         |
-| e2e          | Run your e2e integration tests                   | npm run e2e        | yarn e2e        | ng e2e                                                          |
-| i18n:extract | Extract i18n messages from i18n directives       | npm run extract    | yarn extract    | ng extract-i18n --output-path locale --ivy                      |
-| analyze      | Open webpack-bundle-analyzer                     | npm run analyze    | yarn analyze    | webpack-bundle-analyzer dist/angular-boilerplate/stats.json     |
+| Command  | Description                                                 | NPM              | Yarn          | PNPM          | Background command                              |
+| -------- | ----------------------------------------------------------- | ---------------- | ------------- | ------------- | ----------------------------------------------- |
+| ng       | See available commands                                      | npm run ng       | yarn ng       | pnpm ng       | ng                                              |
+| start    | Run app in development mode                                 | npm start        | yarn start    | pnpm start    | ng serve                                        |
+| build    | Build app for production                                    | npm run build    | yarn build    | pnpm build    | ng build                                        |
+| watch    | Run build when files change                                 | npm run watch    | yarn watch    | pnpm watch    | ng build --watch --configuration development    |
+| test     | Run unit tests                                              | npm run test     | yarn test     | pnpm test     | ng test                                         |
+| test:run | Run unit tests with headless browser and without watch mode | npm run test:run | yarn test:run | pnpm test:run | ng test --watch=false --browsers ChromeHeadless |
+| lint     | Lint code                                                   | npm run lint     | yarn lint     | pnpm lint     | ng lint                                         |

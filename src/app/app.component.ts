@@ -1,25 +1,26 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { SeoService } from './@core/services/seo';
-import { Path } from './@core/structs';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '@lib/services';
+import { ThemeService } from '@lib/services/theme';
+import { Observable } from 'rxjs';
+import { LayoutHorizontalComponent } from './lib/components/layouts/layout-horizontal/layout-horizontal.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterModule, LayoutHorizontalComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  isLoggedIn$ = new BehaviorSubject<boolean>(true);
+  isLoggedIn$!: Observable<boolean>;
 
-  constructor(private router: Router, private seoService: SeoService) {}
+  constructor(private _authService: AuthService, private _themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.seoService.init();
-  }
+    this.isLoggedIn$ = this._authService.isLoggedIn$;
 
-  onLogout() {
-    this.isLoggedIn$.next(false);
-    this.router.navigate([`/${Path.SignIn}`]);
+    this._themeService.init();
   }
 }
