@@ -37,14 +37,14 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private _themeService: ThemeService, private formBuilder: FormBuilder) {
     this.identifyForm = this.formBuilder.group({
       manufdate: [
-        '2003-08-18',
+        '',
         {
           validators: [Validators.required, Validators.pattern(this.isoDatePattern)],
           updateOn: 'blur',
         },
       ],
       hwsn: [
-        '5029005 33405',
+        '',
         {
           validators: [Validators.required, Validators.pattern(this.snPattern)],
           updateOn: 'blur',
