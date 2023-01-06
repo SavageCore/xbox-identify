@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkxbox_identify=self.webpackChunkxbox_identify||[]).push([[338],{338:(l,o,n)=>{n.r(o),n.d(o,{ROUTES:()=>e});var t=n(9671);const e=[{path:"",title:"XRI",loadComponent:(d=(0,t.Z)(function*(){return(yield Promise.all([n.e(433),n.e(678)]).then(n.bind(n,678))).HomePage}),function(){return d.apply(this,arguments)})}];var d}}]);
