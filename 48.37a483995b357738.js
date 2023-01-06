@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkxbox_identify=self.webpackChunkxbox_identify||[]).push([[48],{4048:(i,t,n)=>{n.r(t),n.d(t,{ROUTES:()=>e});var o=n(5861);const e=[{path:"",title:"Settings",loadComponent:(s=(0,o.Z)(function*(){return(yield Promise.all([n.e(433),n.e(902)]).then(n.bind(n,1902))).SettingsPage}),function(){return s.apply(this,arguments)})}];var s}}]);
