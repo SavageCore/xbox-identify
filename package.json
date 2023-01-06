@@ -1,5 +1,5 @@
 {
-  "name": "angular-boilerplate",
+  "name": "xbox-identify",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -27,11 +27,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~14.0.1",
-    "@angular-eslint/builder": "13.4.0",
-    "@angular-eslint/eslint-plugin": "13.4.0",
-    "@angular-eslint/eslint-plugin-template": "13.4.0",
-    "@angular-eslint/schematics": "13.4.0",
-    "@angular-eslint/template-parser": "13.4.0",
+    "@angular-eslint/builder": "~14.0.1",
+    "@angular-eslint/eslint-plugin": "~14.0.1",
+    "@angular-eslint/eslint-plugin-template": "~14.0.1",
+    "@angular-eslint/schematics": "~14.0.1",
+    "@angular-eslint/template-parser": "~14.0.1",
     "@angular/cli": "14.0.1",
     "@angular/compiler-cli": "~14.0.1",
     "@types/jasmine": "~4.0.0",
@@ -41,7 +41,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-angular": "4.1.0",
     "eslint-plugin-import": "2.25.2",
-    "eslint-plugin-jsdoc": "36.1.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "4.0.0",
     "husky": "7.0.2",
