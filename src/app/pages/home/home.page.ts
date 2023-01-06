@@ -19,6 +19,7 @@ export class HomePage implements OnInit, OnDestroy {
   hwsn = '';
   videochip = '';
   biosv = '';
+  dvddrive = '';
   mismatchString = '';
   hasResult = false;
   hasError = false;
@@ -26,6 +27,7 @@ export class HomePage implements OnInit, OnDestroy {
   videoChipGuess: string[];
   biosVersionGuess: string[];
   factoryGuess: string[];
+  dvdDriveGuess: string[];
   factoryName = '';
   productionGuess: string[];
   possibleRevisions: string[];
@@ -51,8 +53,9 @@ export class HomePage implements OnInit, OnDestroy {
           updateOn: 'blur',
         },
       ],
-      videochip: ['unknown'],
+      videochip: [''],
       biosv: ['unknown'],
+      dvddrive: [''],
     });
 
     this.manufacturingGuess = [];
@@ -62,6 +65,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.productionGuess = [];
     this.possibleRevisions = [];
     this.mismatch = [];
+    this.dvdDriveGuess = [];
   }
 
   ngOnInit(): void {
@@ -76,7 +80,7 @@ export class HomePage implements OnInit, OnDestroy {
     let skip = true;
     this.mismatch = [];
     this.identifyForm.valueChanges.subscribe(
-      (val: { manufdate: string; hwsn: string; videochip: string; biosv: string }) => {
+      (val: { manufdate: string; hwsn: string; videochip: string; biosv: string; dvddrive: string }) => {
         this.manufdate = val.manufdate;
         if (!this.identifyForm.get('manufdate')!.valid) {
           return;
@@ -95,6 +99,9 @@ export class HomePage implements OnInit, OnDestroy {
 
         this.biosv = val.biosv;
         this.biosVersionCheck();
+
+        this.dvddrive = val.dvddrive;
+        this.dvdDriveCheck();
 
         if (skip === false) {
           this.checkMatches();
@@ -265,6 +272,28 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  dvdDriveCheck(): void {
+    if (this.dvddrive === 'thomson') {
+      this.dvdDriveGuess = ['1.0', '1.1'];
+    }
+
+    if (this.dvddrive === 'philips') {
+      this.dvdDriveGuess = ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '1.6b'];
+    }
+
+    if (this.dvddrive === 'samsung') {
+      this.dvdDriveGuess = ['1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '1.6b'];
+    }
+
+    if (this.dvddrive === 'hitachi-lg') {
+      this.dvdDriveGuess = ['1.6', '1.6b'];
+    }
+
+    if (this.dvddrive === 'unknown') {
+      this.dvdDriveGuess = ['?'];
+    }
+  }
+
   checkMatches(): void {
     this.hasError = false;
     this.mismatch = [];
@@ -315,6 +344,19 @@ export class HomePage implements OnInit, OnDestroy {
       console.log('possiblities', possiblities);
     }
 
+    // Further filter by dvd drive if known
+    if (this.dvddrive !== 'unknown') {
+      if (!possiblities.some((r) => this.dvdDriveGuess.includes(r))) {
+        this.mismatch.push('dvd drive');
+
+        this.hasError = true;
+      }
+
+      console.log('dvdDriveGuess', this.dvdDriveGuess);
+      possiblities = possiblities.filter((e) => this.dvdDriveGuess.includes(e));
+      console.log('possiblities', possiblities);
+    }
+
     console.log('mismatch', this.mismatch);
 
     this.mismatchString = this.mismatch.join(', ').replace(/,([^,]*)$/, ' and $1');
@@ -325,6 +367,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.productionGuess,
       this.videoChipGuess,
       this.biosVersionGuess,
+      this.dvdDriveGuess,
     );
     const guessArraySorted = guessArray.sort(
       (a, b) => guessArray.filter((v) => v === a).length - guessArray.filter((v) => v === b).length,

@@ -40,9 +40,28 @@
           <input formControlName="videochip" type="radio" class="form-radio" name="videochip" value="xcalibur">
           <span class="ml-2">Xcalibur</span>
         </label>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      DVD Drive Verification
+      <img src="assets/images/drive_determination.png" alt="DVD Drive Verification" class="mt-2">
+      <div class="mt-2">
+        <label class="inline-flex items-center">
+          <input formControlName="dvddrive" type="radio" class="form-radio" name="dvddrive" value="thomson">
+          <span class="ml-2">Thomson</span>
+        </label>
         <label class="inline-flex items-center ml-6">
-          <input formControlName="videochip" type="radio" class="form-radio" name="videochip" value="unknown">
-          <span class="ml-2">Unknown</span>
+          <input formControlName="dvddrive" type="radio" class="form-radio" name="dvddrive" value="philips">
+          <span class="ml-2">Philips</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input formControlName="dvddrive" type="radio" class="form-radio" name="dvddrive" value="samsung">
+          <span class="ml-2">Samsung</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input formControlName="dvddrive" type="radio" class="form-radio" name="dvddrive" value="hitachi-lg">
+          <span class="ml-2">Hitachi-LG</span>
         </label>
       </div>
     </div>
@@ -71,6 +90,7 @@
       <p *ngIf="videoChipGuess">Video chip suggests: {{videoChipGuess.join(', ')}}</p>
       <p *ngIf="biosVersionGuess">BIOS version suggests: {{biosVersionGuess.join(', ')}}</p>
       <p *ngIf="factoryGuess">SN suggests factory: {{factoryGuess.join(', ')}} ({{factoryName}})</p>
+      <p *ngIf="dvdDriveGuess">DVD drive suggests: {{dvdDriveGuess.join(', ')}}</p>
       <br>
       <ng-container *ngIf="!hasError">
         <span class="text-warning-600" *ngIf="possibleRevisions.length > 1">
