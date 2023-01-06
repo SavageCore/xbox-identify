@@ -6,7 +6,7 @@
     "postinstall": "npx husky install",
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --aot --build-optimizer --base-href https://savagecore.github.io/xbox-identify/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:run": "ng test --watch=false --browsers ChromeHeadless",
