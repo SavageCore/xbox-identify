@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkxbox_identify=self.webpackChunkxbox_identify||[]).push([[391],{3391:(l,o,n)=>{n.r(o),n.d(o,{ROUTES:()=>t});var e=n(9671);const t=[{path:"",title:"Profile",loadComponent:(d=(0,e.Z)(function*(){return(yield n.e(629).then(n.bind(n,4629))).ProfilePage}),function(){return d.apply(this,arguments)})}];var d}}]);
