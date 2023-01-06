@@ -1,0 +1,13 @@
+<section>
+  <h1 class="mb-4">Settings</h1>
+  <form [formGroup]="settingsForm">
+    <label class="block mt-4">
+      Theme
+      <select formControlName="theme" class="block w-full mt-1 form-select">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </label>
+  </form>
+</section>
