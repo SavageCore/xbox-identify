@@ -5,7 +5,7 @@
 
     <ul class="flex flex-wrap items-center space-x-3">
       <li>
-        <a [href]="repositoryURL" title="Repository" class="btn btn-fit">
+        <a [href]="repositoryURL" title="View the source on GitHub" class="btn btn-fit" target="_blank">
           <!-- prettier-ignore -->
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
             role="img" class="iconify iconify--mdi" width="22" height="22" preserveAspectRatio="xMidYMid meet"
@@ -21,6 +21,6 @@
 
   <!-- copyright -->
   <span class="block pt-6 text-sm text-center text-gray-500">
-    © {{ currentYear }} <a [href]="repositoryURL" class="hover:underline"> SavageCore </a>
+    Made with 🍁 by <a [href]="authorURL" class="hover:underline" target="_blank"> SavageCore </a>
   </span>
 </footer>
